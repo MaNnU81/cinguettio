@@ -1,8 +1,21 @@
-<div>
+<div class="container-grid">
   @for (cinguettio of firebaseServ.cinguettii(); track $index) {
-    <div>
-      <span>CipCip: {{cinguettio.text}} creato il: {{cinguettio.creationTime.toDate()}}</span>
+    <div class="singleTweet" 
+         [class.featured]="$index % 7 === 0"> <!-- Ogni 7° post-it è più grande -->
+      <div class="tweet-text">{{cinguettio.text}}</div>
+      
+      <span class="creation-time">
+        {{cinguettio.creationTime.toDate() | date:'mediumDate'}}
+      </span>
+      
+      @if (cinguettio.location) {
+        <div class="tweet-location">
+          <span>{{ cinguettio.location.lat | number:'1.4-4' }}° N</span>
+          <span>{{ cinguettio.location.lng | number:'1.4-4' }}° W</span>
+        </div>
+      } @else {
+        <p class="no-location">Nessuna posizione</p>
+      }
     </div>
-
   }
 </div>

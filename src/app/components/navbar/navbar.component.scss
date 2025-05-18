@@ -1,6 +1,9 @@
 .navbar{
     display: flex;
     border: 1px solid crimson;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    padding: 8px;
 }
 .divider{
     flex-grow: 1;

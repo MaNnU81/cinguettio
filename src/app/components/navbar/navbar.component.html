@@ -1,6 +1,10 @@
-<p>navbar works!</p>
+
 <div class="navbar">
-    <a [routerLink]="['list']">CINGUETTIO</a>
+    <!-- <a [routerLink]="['list']">Post-It</a> -->
+    <a [routerLink]="['new-cingue']">POST-IT</a> 
     <span class="divider"></span>
-    <a [routerLink]="['login']">Login</a>
+     
+    <a [routerLink]="['login']" *ngIf="!firebaseServ.isAuthenticated()">Login</a>
+    <button (click)="logout()" *ngIf="firebaseServ.isAuthenticated()">Logout</button>
+
 </div>

@@ -1,7 +1,11 @@
 import { Injectable, signal } from '@angular/core';
 import { initializeApp } from "firebase/app";
-import { collection, getDocs, getFirestore, onSnapshot } from "firebase/firestore";
+import {getFirestore, 
+  collection, 
+  onSnapshot, addDoc, serverTimestamp } from "firebase/firestore";
 import { Cinguettio } from '../../model/cinguettio';
+import { Auth, getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +21,7 @@ export class FirebaseService {
   };
 
   db?: any;
-
+  auth?: Auth;
   cinguettii = signal<Cinguettio[]>([])
 
   constructor() { }
@@ -25,6 +29,21 @@ export class FirebaseService {
   init() {
     const app = initializeApp(this.firebaseConfig);
     this.db = getFirestore(app);
+    this.auth = getAuth(app);
+  }
+
+  async login(email: string, password: string) {
+    if (!this.auth) throw new Error('Auth not initialized');
+    return signInWithEmailAndPassword(this.auth, email, password);
+  }
+
+  async logout() {
+    if (!this.auth) throw new Error('Auth not initialized');
+    return signOut(this.auth);
+  }
+
+  isAuthenticated() {
+    return !!this.auth?.currentUser;
   }
 
   async getAllCinguettii() {
@@ -51,6 +70,21 @@ export class FirebaseService {
       });
       this.cinguettii.update((_) => newArray)
     })
+    
   }
-}
+  async addCinguettio(text: string, location?: { lat: number, lng: number }) {
+    if (!this.db) throw new Error('Database non inizializzato');
+    
+    const cinguettioData = {
+      text,
+      creationTime: serverTimestamp(), // Timestamp automatico di Firestore
+      ...(location && { location }) // Aggiunge location solo se esiste
+    };
+
+    const docRef = await addDoc(collection(this.db, "cinguettii"), cinguettioData);
+    return docRef.id;
+  }
+  
+  }
+
 

@@ -1,0 +1,36 @@
+<p>new-cingue works!</p>
+<div class="form-container">
+    <h2>Nuovo Cinguettio</h2>
+    
+    @if (errorMessage) {
+      <div class="error-message">{{ errorMessage }}</div>
+    }
+  
+    <form (ngSubmit)="pubblica()">
+      <textarea
+        [(ngModel)]="nuovoCinguettio.testo"
+        name="testo"
+        placeholder="Cosa cinguetti oggi?"
+        rows="4"
+        required
+      ></textarea>
+  
+      <div class="location-option">
+        <input
+          type="checkbox"
+          id="usaPosizione"
+          [(ngModel)]="nuovoCinguettio.usaPosizione"
+          name="usaPosizione"
+        >
+        <label for="usaPosizione">Includi la mia posizione</label>
+      </div>
+  
+      <button type="submit" [disabled]="isLoading">
+        @if (isLoading) {
+          <span>Pubblicazione in corso...</span>
+        } @else {
+          <span>Pubblica</span>
+        }
+      </button>
+    </form>
+  </div>
