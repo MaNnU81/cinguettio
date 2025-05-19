@@ -2,15 +2,21 @@ import { Injectable, signal } from '@angular/core';
 import { initializeApp } from "firebase/app";
 import {getFirestore, 
   collection, 
-  onSnapshot, addDoc, serverTimestamp } from "firebase/firestore";
+  onSnapshot, addDoc, serverTimestamp, 
+  setDoc,
+  doc,
+  Firestore,
+  getDoc} from "firebase/firestore";
 import { Cinguettio } from '../../model/cinguettio';
-import { Auth, getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { Auth, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
+ 
+
 
   // firebaseConfig = {
   //   apiKey: "AIzaSyCV6zyW_JUDnYmI7pN1BVPnRM3HIK9WMF8",
@@ -39,11 +45,27 @@ export class FirebaseService {
 
   constructor() { }
 
-  init() {
-    const app = initializeApp(this.firebaseConfig);
-    this.db = getFirestore(app);
-    this.auth = getAuth(app);
-  }
+currentUser = signal<any>(null); 
+async init() {
+  const app = initializeApp(this.firebaseConfig);
+  this.db = getFirestore(app);
+  this.auth = getAuth(app);
+
+  onAuthStateChanged(this.auth, async (user) => {
+    if (user) {
+      const userDoc = await getDoc(doc(this.db, 'users', user.uid));
+      this.currentUser.set({
+        uid: user.uid,
+        email: user.email,
+        ...userDoc.data()
+      });
+    } else {
+      this.currentUser.set(null);
+    }
+  });
+
+}
+  
 
   async login(email: string, password: string) {
     if (!this.auth) throw new Error('Auth not initialized');
@@ -90,6 +112,7 @@ export class FirebaseService {
     
     const cinguettioData = {
       text,
+      authorNick: this.currentUser()?.nick || 'anonymous',  
       creationTime: serverTimestamp(), // Timestamp automatico di Firestore
       ...(location && { location }) // Aggiunge location solo se esiste
     };
@@ -98,10 +121,34 @@ export class FirebaseService {
     return docRef.id;
   }
 
-    register(email: string, password: string, nick: string) {
-    throw new Error('Method not implemented.');  ///da implemenatre su progetto andre
-  }
-  
+ 
+
+  async register(email: string, password: string, nick: string): Promise<void> {
+    if (!this.auth) throw new Error('Auth not initialized');
+    if (!this.db) throw new Error('Database not initialized');
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        this.auth,
+        email,
+        password
+      );
+      
+      await this.saveUser(userCredential.user.uid, nick);
+    } catch (error) {
+      console.error('Registration error:', error);
+      throw error; // Rilancia l'errore per la gestione nel componente
+    }
   }
 
+  private async saveUser(uid: string, nick: string): Promise<void> {
+    const userDoc = {
+      nick: nick,
+      email: this.auth?.currentUser?.email, // Salva anche l'email per riferimento
+      createdAt: serverTimestamp()
+    };
+    
+    await setDoc(doc(this.db, 'users', uid), userDoc);
+  }
 
+}

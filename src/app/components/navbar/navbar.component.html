@@ -1,10 +1,15 @@
-
 <div class="navbar">
-    <!-- <a [routerLink]="['list']">Post-It</a> -->
-    <a [routerLink]="['new-cingue']">POST-IT</a> 
-    <span class="divider"></span>
-     
-    <a [routerLink]="['login']" *ngIf="!firebaseServ.isAuthenticated()">Login</a>
-    <button (click)="logout()" *ngIf="firebaseServ.isAuthenticated()">Logout</button>
+  <!-- Messaggio di benvenuto a sinistra -->
+  <span *ngIf="firebaseServ.currentUser()" class="welcome-message">
+    Benvenuto, {{ firebaseServ.currentUser().nick }}
+  </span>
 
+  <!-- Elementi centrali -->
+  <div class="nav-center">
+    <a [routerLink]="['new-cingue']">POST-IT</a>
+    <span class="divider"></span>
+    <a [routerLink]="['login']" *ngIf="!firebaseServ.isAuthenticated()">Login</a>
+    <a [routerLink]="['registration']" *ngIf="!firebaseServ.isAuthenticated()">Registrati</a>
+    <button (click)="logout()" *ngIf="firebaseServ.isAuthenticated()">Logout</button>
+  </div>
 </div>

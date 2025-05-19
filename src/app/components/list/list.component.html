@@ -3,9 +3,12 @@
     <div class="singleTweet">
       <div class="tweet-text">{{cinguettio.text}}</div>
       
-      <span class="creation-time">
-        {{cinguettio.creationTime.toDate() | date:'short'}}
-      </span>
+      <div class="tweet-meta">
+        <span class="author-badge">by: {{ cinguettio.authorNick || 'anonymous' }}</span>
+        <span class="creation-time">
+          {{cinguettio.creationTime.toDate() | date:'short'}}
+        </span>
+      </div>
       
       @if (cinguettio.location) {
         <div class="tweet-location">
@@ -18,6 +21,7 @@
     </div>
   }
 </div>
+
 @if(firebaseServ.isAuthenticated()){
-<app-new-cingue></app-new-cingue>
+  <app-new-cingue></app-new-cingue>
 }

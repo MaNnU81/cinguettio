@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { FirebaseService } from '../../services/firebase/firebase.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-new-cingue',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './new-cingue.component.html',
   styleUrl: './new-cingue.component.scss'
 })
