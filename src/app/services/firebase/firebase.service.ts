@@ -11,13 +11,26 @@ import { Auth, getAuth, signInWithEmailAndPassword, signOut } from 'firebase/aut
   providedIn: 'root'
 })
 export class FirebaseService {
-  firebaseConfig = {
-    apiKey: "AIzaSyCV6zyW_JUDnYmI7pN1BVPnRM3HIK9WMF8",
-    authDomain: "cinguetto-88481.firebaseapp.com",
-    projectId: "cinguetto-88481",
-    storageBucket: "cinguetto-88481.firebasestorage.app",
-    messagingSenderId: "562398177306",
-    appId: "1:562398177306:web:04ac2b0e84e355855189a3"
+
+  // firebaseConfig = {
+  //   apiKey: "AIzaSyCV6zyW_JUDnYmI7pN1BVPnRM3HIK9WMF8",
+  //   authDomain: "cinguetto-88481.firebaseapp.com",
+  //   projectId: "cinguetto-88481",
+  //   storageBucket: "cinguetto-88481.firebasestorage.app",
+  //   messagingSenderId: "562398177306",
+  //   appId: "1:562398177306:web:04ac2b0e84e355855189a3"
+
+
+
+
+    firebaseConfig = {
+    apiKey: "AIzaSyA7ymoFr6ZVE0AEy-SNkrpLws95vcMq-cc",
+    authDomain: "cinguetto-69d31.firebaseapp.com",
+    projectId: "cinguetto-69d31",
+    storageBucket: "cinguetto-69d31.firebasestorage.app",
+    messagingSenderId: "1001473759556",
+    appId: "1:1001473759556:web:6027bafeb24555a1f99f11"
+  
   };
 
   db?: any;
@@ -83,6 +96,10 @@ export class FirebaseService {
 
     const docRef = await addDoc(collection(this.db, "cinguettii"), cinguettioData);
     return docRef.id;
+  }
+
+    register(email: string, password: string, nick: string) {
+    throw new Error('Method not implemented.');  ///da implemenatre su progetto andre
   }
   
   }

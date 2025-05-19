@@ -12,10 +12,7 @@
     color: #e0e0e0;
   }
   
-  /* Font personalizzati (da aggiungere in index.html) */
-  /*
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Orbitron:wght@500&display=swap" rel="stylesheet">
-  */
+ 
   
   /* Container griglia neon */
   .container-grid {
@@ -29,12 +26,15 @@
   /* Card neon base */
   .singleTweet {
     background: rgba(10, 10, 10, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    word-break: break-all;
+    border: 1px solid #f707f7;
     border-radius: 8px;
     padding: 2rem;
     position: relative;
     overflow: hidden;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+
+    
     
     /* Effetto bordo neon */
     &::before {

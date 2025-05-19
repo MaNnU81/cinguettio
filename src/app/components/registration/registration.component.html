@@ -1,0 +1,33 @@
+<div class="login-container">
+    
+    <a [routerLink]="['list']">Torna alla Home</a> 
+    
+    <h2>Login</h2>
+    
+    @if (error) {
+      <div class="error">{{ error }}</div>
+    }
+  
+    <input 
+    type="text"
+    [(ngModel)]="nick"
+    placeholder="Nick"
+      class="input-field"
+    >
+
+    <input 
+      type="email" 
+      [(ngModel)]="email" 
+      placeholder="Email"
+      class="input-field"
+    >
+  
+    <input 
+      type="password" 
+      [(ngModel)]="password" 
+      placeholder="Password"
+      class="input-field"
+    >
+  
+    <button (click)="register()" class="login-button">Accedi</button>
+  </div>

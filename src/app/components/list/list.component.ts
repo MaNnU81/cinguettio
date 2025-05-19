@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { FirebaseService } from '../../services/firebase/firebase.service';
 import { CommonModule } from '@angular/common';
+import { NewCingueComponent } from "../new-cingue/new-cingue.component";
 
 @Component({
   selector: 'app-list',
-  imports: [CommonModule],
+  imports: [CommonModule, NewCingueComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss'
 })
