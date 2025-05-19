@@ -4,7 +4,7 @@
       <div class="tweet-text">{{cinguettio.text}}</div>
       
       <span class="creation-time">
-        {{cinguettio.creationTime.toDate() | date:'mediumDate'}}
+        {{cinguettio.creationTime.toDate() | date:'short'}}
       </span>
       
       @if (cinguettio.location) {
