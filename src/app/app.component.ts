@@ -4,6 +4,9 @@ import { FirebaseService } from './services/firebase/firebase.service';
 import { NavbarComponent } from "./components/navbar/navbar.component";
 
 
+
+
+
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, NavbarComponent ],

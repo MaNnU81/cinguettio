@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { initializeApp } from "firebase/app";
 import {getFirestore, 
   collection, 
@@ -43,6 +43,10 @@ export class FirebaseService {
   auth?: Auth;
   cinguettii = signal<Cinguettio[]>([])
 
+    geoCinguettii = computed(() => {
+    return this.fromCinguettiiToGeojson(this.cinguettii())
+  })
+
   constructor() { }
 
 currentUser = signal<any>(null); 
@@ -66,6 +70,13 @@ async init() {
 
 }
   
+getUser(uid: string) {
+
+    var path = doc(this.db, "users", uid);
+
+    return getDoc(path).then(snap => snap.data());
+
+  }
 
   async login(email: string, password: string) {
     if (!this.auth) throw new Error('Auth not initialized');
@@ -141,14 +152,49 @@ async init() {
     }
   }
 
-  private async saveUser(uid: string, nick: string): Promise<void> {
+  public async saveUser(uid: string, nick: string): Promise<void> {
     const userDoc = {
       nick: nick,
-      email: this.auth?.currentUser?.email, // Salva anche l'email per riferimento
+      
       createdAt: serverTimestamp()
     };
     
     await setDoc(doc(this.db, 'users', uid), userDoc);
   }
+
+    fromCinguettiiToGeojson(cinguettii: Cinguettio[]): any {
+  const emptyGeojson: any = {
+    type: "FeatureCollection",
+    features: []
+  }
+
+  for (const cinguettio of cinguettii) {
+
+    if (cinguettio.location) {
+      const feature = {
+        type: "Feature",
+        properties: {
+          text: cinguettio.text,
+          creationTime: cinguettio.creationTime.toDate()
+        },
+        geometry: {
+          coordinates: [
+            cinguettio.location.lng,
+            cinguettio.location.lat
+          ],
+          type: "Point"
+        },
+        id: cinguettio.id
+      }
+
+      emptyGeojson.features.push(feature);
+    }
+
+  }
+
+ 
+
+  return JSON.stringify(emptyGeojson)
+}
 
 }

@@ -19,9 +19,18 @@
         <p class="no-location">NO GPS DATA</p>
       }
     </div>
+   
   }
 </div>
-
 @if(firebaseServ.isAuthenticated()){
   <app-new-cingue></app-new-cingue>
+  
 }
+
+ <div class="map-section">
+    <span class="tweet-location">Mappa dei Cinguettii</span>
+    <app-map-view [geoJsonData]="firebaseServ.geoCinguettii()"></app-map-view>
+  </div>
+
+
+
