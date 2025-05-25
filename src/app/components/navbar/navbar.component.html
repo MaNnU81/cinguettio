@@ -1,12 +1,13 @@
 <div class="navbar">
   <!-- Messaggio di benvenuto a sinistra -->
+   <span class="title">NeuroPulse</span>
   <span *ngIf="firebaseServ.currentUser()" class="welcome-message">
     Benvenuto, {{ firebaseServ.currentUser().nick }}
   </span>
 
   <!-- Elementi centrali -->
   <div class="nav-center">
-    <a [routerLink]="['new-cingue']">POST-IT</a>
+    <a [routerLink]="['new-cingue']">Glitch Now</a>
     <span class="divider"></span>
     <a [routerLink]="['login']" *ngIf="!firebaseServ.isAuthenticated()">Login</a>
     <a [routerLink]="['registration']" *ngIf="!firebaseServ.isAuthenticated()">Registrati</a>

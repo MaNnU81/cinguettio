@@ -1,7 +1,7 @@
 
 <div class="form-container">
   <a [routerLink]="['list']">Torna alla Home</a> 
-    <h2>Nuovo Cinguettio</h2>
+    <h2>New Glitch</h2>
     
     @if (errorMessage) {
       <div class="error-message">{{ errorMessage }}</div>
@@ -30,7 +30,7 @@
         @if (isLoading) {
           <span>Pubblicazione in corso...</span>
         } @else {
-          <span>Pubblica</span>
+          <span>Glitch Now!</span>
         }
       </button>
     </form>
